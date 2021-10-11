@@ -1,0 +1,12 @@
+version: '2'
+services:
+  single-registry-mongo:
+    image: mongo:3
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "mall-service"
+      MONGO_INITDB_DATABASE: "mall-service"
+      MONGO_INITDB_ROOT_PASSWORD: "mall-service"
+    volumes:
+      - ./docker/mongodb/:/docker-entrypoint-initdb.d
