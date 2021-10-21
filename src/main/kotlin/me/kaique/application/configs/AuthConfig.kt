@@ -44,3 +44,5 @@ class AuthConfig(private val serviceToken: String, private val jwtUtils: JwtUtil
         return Roles.ANYONE
     }
 }
+
+class AuthenticationFailedException(message: String): Exception(message)

@@ -1,5 +1,9 @@
 package me.kaique.application.web.handler
 
 enum class ErrorType(val message: String) {
-   INTERNAL_SERVER_ERROR("Internal server error")
+   INTERNAL_SERVER_ERROR("Internal server error"),
+   UNEXPECTED_PERSISTENCE_ERROR("Internal server error"),
+   ACCOUNT_NOT_FOUND("Account not found"),
+   ALREADY_EXIST_ERROR("Already exist error"),
+   COMMUNICATION_CLIENT_ERROR("Communication client error")
 }

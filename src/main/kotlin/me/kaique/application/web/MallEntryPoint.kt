@@ -3,6 +3,8 @@ package me.kaique.application.web
 import io.javalin.Javalin
 import me.kaique.application.configs.AuthConfig
 import me.kaique.application.configs.modules.dependenciesModule
+import me.kaique.application.configs.modules.fiscalInformationModules
+import me.kaique.application.configs.modules.storeModules
 import me.kaique.application.web.handler.ErrorHandler
 import me.kaique.application.web.routes.RouterManager
 import org.koin.log.EmptyLogger
@@ -20,7 +22,11 @@ object MallEntryPoint : KoinComponent {
     fun init(extraProperties: Map<String, Any> = emptyMap()) {
 
         StandAloneContext.startKoin(
-            listOf(dependenciesModule),
+            listOf(
+                dependenciesModule,
+                storeModules,
+                fiscalInformationModules
+            ),
             useEnvironmentProperties = true,
             extraProperties = extraProperties,
             logger = EmptyLogger()
