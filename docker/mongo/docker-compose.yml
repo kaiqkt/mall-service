@@ -1,9 +1,9 @@
 version: '2'
 services:
-  single-registry-mongo:
+  mall-mongo:
     image: mongo:3
     ports:
-      - "27018:27017"
+      - "27019:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: "mall-service"
       MONGO_INITDB_DATABASE: "mall-service"

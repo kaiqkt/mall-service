@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val mainPkgAndClass = "com.kaique.application.Main"
+val mainPkgAndClass = "me.kaique.application.Main"
 group = "com.kaique"
 version = "1.0.0"
 
@@ -13,11 +13,12 @@ repositories {
     mavenCentral()
     jcenter()
 }
-
 dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.1.0")
     implementation("io.javalin:javalin:3.13.10")
     implementation("org.koin:koin-core:1.0.0")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.9.4")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.0")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.6.5")
     implementation ("org.slf4j:slf4j-simple:1.7.30")
     implementation ("io.azam.ulidj:ulidj:1.0.0")
