@@ -20,5 +20,15 @@ class StoreRoutes(private val storeController: StoreController) {
                 }
             }, setOf(Roles.CUSTOMER))
         }
+        path("/individual") {
+            post({ ctx ->
+                when {
+                    ctx.getContentTypeWithoutCharset() == Constants.REGISTER_INDIVIDUAL -> {
+                        storeController.registerLegalStore(ctx)
+                    }
+                    else -> ctx.notAcceptable()
+                }
+            }, setOf(Roles.CUSTOMER))
+        }
     }
 }
