@@ -22,9 +22,19 @@ class StoreService(
         val fiscalInformation = storeInformation.fiscalInformation
 
         if (fiscalInformation.fiscalType == FiscalType.LEGAL) {
-            validationService.validateLegal(fiscalInformation.cnpj!!, store.storeName, store.accountId)
+            validationService.validateLegal(
+                fiscalInformation.cnpj!!,
+                store.storeName,
+                store.storeCategory,
+                store.accountId
+            )
         } else {
-            validationService.validateIndividual(fiscalInformation.cpf!!, store.storeName, store.accountId)
+            validationService.validateIndividual(
+                fiscalInformation.cpf!!,
+                store.storeName,
+                store.storeCategory,
+                store.accountId
+            )
         }
 
         val account = singleRegistryService.findAccountById(store.accountId)

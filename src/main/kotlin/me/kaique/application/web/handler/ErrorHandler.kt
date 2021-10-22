@@ -6,6 +6,7 @@ import me.kaique.application.web.dto.ErrorResponse
 import me.kaique.domain.exceptions.AccountNotFoundException
 import me.kaique.domain.exceptions.AlreadyExistsException
 import me.kaique.domain.exceptions.CommunicationException
+import me.kaique.domain.exceptions.InvalidStoreCategoryException
 import me.kaique.resources.repositories.exceptions.UnexpectedPersistenceException
 import org.eclipse.jetty.http.HttpStatus
 import org.slf4j.Logger
@@ -31,6 +32,9 @@ class ErrorHandler {
         app.exception(CommunicationException::class.java) { e, ctx ->
             handleException(e, ctx)
         }
+        app.exception(InvalidStoreCategoryException::class.java) { e, ctx ->
+            handleException(e, ctx)
+        }
     }
 
     private fun handleException(
@@ -43,6 +47,21 @@ class ErrorHandler {
             ErrorResponse(
                 type = ErrorType.COMMUNICATION_CLIENT_ERROR,
                 message = ErrorType.COMMUNICATION_CLIENT_ERROR.message,
+                cause = e.message
+            )
+        )
+    }
+
+    private fun handleException(
+        e: InvalidStoreCategoryException,
+        ctx: Context
+    ) {
+        log.error("Invalid category store: ${ctx.method()} ${ctx.url()}")
+        ctx.status(HttpStatus.BAD_REQUEST_400)
+        ctx.json(
+            ErrorResponse(
+                type = ErrorType.STORE_CATEGORY_ERROR,
+                message = ErrorType.STORE_CATEGORY_ERROR.message,
                 cause = e.message
             )
         )

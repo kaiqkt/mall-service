@@ -47,6 +47,7 @@ val storeModules = module {
     single {
         ValidationService(
             storeRepository = get(),
+            storeCategoryService = get(),
             fiscalInformationRepository = get()
         )
     }
