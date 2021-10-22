@@ -1,15 +1,20 @@
 package me.kaique.application.configs.modules
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import me.kaique.application.web.controller.StoreCategoryController
 import me.kaique.application.web.controller.StoreController
+import me.kaique.application.web.routes.StoreCategoryRoutes
 import me.kaique.application.web.routes.StoreRoutes
 import me.kaique.domain.gateways.persistence.StoreRepository
 import me.kaique.domain.gateways.singleregistry.SingleRegistryService
+import me.kaique.domain.services.StoreCategoryService
 import me.kaique.domain.services.StoreService
 import me.kaique.domain.services.ValidationService
 import me.kaique.resources.repositories.StoreMongoRepository
 import me.kaique.resources.singleregistry.clients.SingleRegistryClient
 import me.kaique.resources.singleregistry.gateways.SingleRegistryServiceImpl
+import org.koin.dsl.context.ModuleDefinition
 import org.koin.dsl.module.module
 
 val storeModules = module {
@@ -30,6 +35,12 @@ val storeModules = module {
     single<SingleRegistryService> {
         SingleRegistryServiceImpl(
             singleRegistryClient = get()
+        )
+    }
+
+    single {
+        StoreCategoryService(
+            categories = getJsonProperty("STORE_CATEGORIES")
         )
     }
 
@@ -56,8 +67,25 @@ val storeModules = module {
     }
 
     single {
+        StoreCategoryController(
+            storeCategoryService = get()
+        )
+    }
+
+    single {
         StoreRoutes(
             storeController = get()
         )
     }
+
+    single {
+        StoreCategoryRoutes(
+            storeCategoryController = get()
+        )
+    }
+}
+
+private inline fun <reified T> ModuleDefinition.getJsonProperty(key: String): T{
+    val value: String = getProperty(key)
+    return jacksonObjectMapper().readValue(value)
 }
