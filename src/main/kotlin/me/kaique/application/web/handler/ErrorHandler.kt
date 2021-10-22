@@ -42,7 +42,8 @@ class ErrorHandler {
         ctx.json(
             ErrorResponse(
                 type = ErrorType.COMMUNICATION_CLIENT_ERROR,
-                message = ErrorType.COMMUNICATION_CLIENT_ERROR.message
+                message = ErrorType.COMMUNICATION_CLIENT_ERROR.message,
+                cause = e.message
             )
         )
     }
@@ -56,7 +57,8 @@ class ErrorHandler {
         ctx.json(
             ErrorResponse(
                 type = ErrorType.ACCOUNT_NOT_FOUND,
-                message = ErrorType.ACCOUNT_NOT_FOUND.message
+                message = ErrorType.ACCOUNT_NOT_FOUND.message,
+                cause = e.message
             )
         )
     }
@@ -70,7 +72,8 @@ class ErrorHandler {
         ctx.json(
             ErrorResponse(
                 type = ErrorType.ALREADY_EXIST_ERROR,
-                message = ErrorType.ALREADY_EXIST_ERROR.message
+                message = ErrorType.ALREADY_EXIST_ERROR.message,
+                cause = e.message
             )
         )
     }
@@ -84,7 +87,8 @@ class ErrorHandler {
         ctx.json(
             ErrorResponse(
                 type = ErrorType.UNEXPECTED_PERSISTENCE_ERROR,
-                message = ErrorType.UNEXPECTED_PERSISTENCE_ERROR.message
+                message = ErrorType.UNEXPECTED_PERSISTENCE_ERROR.message,
+                cause = e.message
             )
         )
     }
@@ -98,7 +102,8 @@ class ErrorHandler {
         ctx.json(
             ErrorResponse(
                 type = ErrorType.INTERNAL_SERVER_ERROR,
-                message = ErrorType.INTERNAL_SERVER_ERROR.message
+                message = ErrorType.INTERNAL_SERVER_ERROR.message,
+                cause = e.message
             )
         )
     }

@@ -23,8 +23,7 @@ val storeModules = module {
     single {
         SingleRegistryClient(
             serviceUrl = getProperty("SINGLE_REGISTRY_SERVICE_URL"),
-            serviceSecret = getProperty("SINGLE_REGISTRY_SERVICE_SECRET"),
-            mapper = ObjectMapper(),
+            serviceSecret = getProperty("SINGLE_REGISTRY_SERVICE_SECRET")
         )
     }
 

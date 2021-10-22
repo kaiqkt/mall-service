@@ -11,7 +11,7 @@ class ValidationService(
     fun validateLegal(cnpj: String, storeName: String, accountId: String) {
         val existsByCnpj = fiscalInformationRepository.findByCnpj(cnpj) != null
         if (existsByCnpj) {
-            throw AlreadyExistsException("Cnpj: $this already used")
+            throw AlreadyExistsException("Cnpj already used")
         }
 
         validateStore(storeName, accountId)
@@ -20,7 +20,7 @@ class ValidationService(
     fun validateIndividual(cpf: String, storeName: String, accountId: String) {
         val existsByCpf = fiscalInformationRepository.findByCpf(cpf) != null
         if (existsByCpf) {
-            throw AlreadyExistsException("Cpf: $this already used")
+            throw AlreadyExistsException("Cpf already used")
         }
 
         validateStore(storeName, accountId)
@@ -31,11 +31,11 @@ class ValidationService(
         val existsByAccountId = storeRepository.findByAccountId(accountId) != null
 
         if (existByUserName) {
-            throw AlreadyExistsException("Store name: $this already used")
+            throw AlreadyExistsException("Store name already used")
         }
 
         if (existsByAccountId) {
-            throw AlreadyExistsException("Account id: $this already has registered store")
+            throw AlreadyExistsException("Account id already has registered store")
         }
     }
 }
