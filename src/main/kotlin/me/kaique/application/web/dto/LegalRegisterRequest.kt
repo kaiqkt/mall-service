@@ -4,23 +4,20 @@ import io.azam.ulidj.ULID
 import me.kaique.domain.entities.*
 import java.time.LocalDateTime
 
-data class LegalStoreRegisterRequest(
+data class LegalRegisterRequest(
     val businessName: String,
     val cnpj: String,
-    val storeName: String,
-    val storeBio: String,
-    val address: AddressRequest,
-    val storeCategory: StoreCategory
+    val store: StoreRequest
 )
 
-fun LegalStoreRegisterRequest.toDomain(accountId: String): StoreInformation {
+fun LegalRegisterRequest.toDomain(accountId: String): StoreInformation {
     val store = Store(
         id = ULID.random(),
         accountId = accountId,
-        storeName = this.storeName,
-        storeBio = this.storeBio,
-        address = this.address.toDomain(),
-        storeCategory = this.storeCategory,
+        storeName = this.store.storeName,
+        storeBio = this.store.storeBio,
+        address = this.store.address.toDomain(),
+        storeCategory = this.store.storeCategory,
         createdAt = LocalDateTime.now()
     )
 
@@ -29,7 +26,7 @@ fun LegalStoreRegisterRequest.toDomain(accountId: String): StoreInformation {
         accountId = accountId,
         businessName = this.businessName,
         cnpj = this.cnpj,
-        address = this.address.toDomain(),
+        address = this.store.address.toDomain(),
         fiscalType = FiscalType.LEGAL,
         createdAt = LocalDateTime.now()
     )
