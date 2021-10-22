@@ -18,10 +18,8 @@ data class StoreResponse(
     val storeBio: String,
     val address: Address,
     val storeCategory: StoreCategory,
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @JsonSerialize(using = LocalDateTimeSerializer::class)
     val createdAt: LocalDateTime,
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @JsonSerialize(using = LocalDateTimeSerializer::class)
     val updateAt: LocalDateTime? = null,
 )
