@@ -3,6 +3,7 @@ package me.kaique.domain.services
 import me.kaique.domain.entities.FiscalType
 import me.kaique.domain.entities.StoreInformation
 import me.kaique.domain.gateways.persistence.FiscalInformationRepository
+import me.kaique.domain.gateways.persistence.ProductRepository
 import me.kaique.domain.gateways.persistence.StoreRepository
 import me.kaique.domain.gateways.singleregistry.SingleRegistryService
 import org.slf4j.Logger
@@ -12,6 +13,7 @@ class StoreService(
     private val validationService: ValidationService,
     private val singleRegistryService: SingleRegistryService,
     private val storeRepository: StoreRepository,
+    private val productRepository: ProductRepository,
     private val fiscalInformationRepository: FiscalInformationRepository
 ) {
 
@@ -38,8 +40,11 @@ class StoreService(
         }
 
         val account = singleRegistryService.findAccountById(store.accountId)
+
         storeRepository.save(store, account)
         fiscalInformationRepository.save(fiscalInformation, account)
+        productRepository.saveNewProductCatalog(store.id)
+
         log.info("Legal store with id ${store.id} created successfully")
 
         return storeInformation

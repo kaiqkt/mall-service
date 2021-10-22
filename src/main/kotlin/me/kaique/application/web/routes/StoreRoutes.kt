@@ -24,7 +24,7 @@ class StoreRoutes(private val storeController: StoreController) {
             post({ ctx ->
                 when {
                     ctx.getContentTypeWithoutCharset() == Constants.REGISTER_INDIVIDUAL -> {
-                        storeController.registerLegalStore(ctx)
+                        storeController.registerIndividualStore(ctx)
                     }
                     else -> ctx.notAcceptable()
                 }
