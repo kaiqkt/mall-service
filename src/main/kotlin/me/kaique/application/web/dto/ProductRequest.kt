@@ -9,6 +9,7 @@ data class ProductRequest(
     val description: String,
     val price: BigDecimal,
     val options: List<String>? = null,
+    val productCategory: String
 )
 
 fun ProductRequest.toDomain() = Product(
@@ -17,4 +18,5 @@ fun ProductRequest.toDomain() = Product(
     description = this.description,
     price = this.price,
     options = this.options,
+    productCategory = this.productCategory
 )

@@ -1,9 +1,9 @@
 package me.kaique.resources.repositories.documents
 
+import me.kaique.domain.entities.Account
 import me.kaique.domain.entities.Phone
 import me.kaique.domain.entities.Store
 import me.kaique.domain.entities.StoreCategory
-import me.kaique.domain.entities.Account
 import java.time.LocalDateTime
 
 data class StoreDocument(
@@ -15,6 +15,8 @@ data class StoreDocument(
     val email: String,
     val phone: Phone?,
     val storeCategory: StoreCategory,
+    val productsCategory: List<String>,
+    val products: List<ProductDocument>,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime? = null,
 ) {
@@ -26,7 +28,10 @@ data class StoreDocument(
             storeBio = this.storeBio,
             address = this.address.toAddress(),
             storeCategory = this.storeCategory,
-            createdAt = this.createdAt
+            productsCategory = this.productsCategory,
+            products = this.products.map { it.toProduct() },
+            createdAt = this.createdAt,
+            updateAt = this.updatedAt
         )
 
     companion object {
@@ -40,9 +45,11 @@ data class StoreDocument(
                 email = account.email,
                 phone = account.phone,
                 storeCategory = store.storeCategory,
-                createdAt = store.createdAt
+                productsCategory = store.productsCategory,
+                products = store.products.map { ProductDocument.toDocument(it) },
+                createdAt = store.createdAt,
+                updatedAt = store.updateAt
             )
-
     }
 }
 

@@ -1,9 +1,10 @@
 package me.kaique.domain.services
 
 import me.kaique.domain.entities.FiscalType
+import me.kaique.domain.entities.Store
 import me.kaique.domain.entities.StoreInformation
+import me.kaique.domain.exceptions.StoreNotFoundException
 import me.kaique.domain.gateways.persistence.FiscalInformationRepository
-import me.kaique.domain.gateways.persistence.ProductRepository
 import me.kaique.domain.gateways.persistence.StoreRepository
 import me.kaique.domain.gateways.singleregistry.SingleRegistryService
 import org.slf4j.Logger
@@ -13,7 +14,6 @@ class StoreService(
     private val validationService: ValidationService,
     private val singleRegistryService: SingleRegistryService,
     private val storeRepository: StoreRepository,
-    private val productRepository: ProductRepository,
     private val fiscalInformationRepository: FiscalInformationRepository
 ) {
 
@@ -43,10 +43,30 @@ class StoreService(
 
         storeRepository.save(store, account)
         fiscalInformationRepository.save(fiscalInformation, account)
-        productRepository.saveNewProductCatalog(store.id)
 
         log.info("Legal store with id ${store.id} created successfully")
 
         return storeInformation
+    }
+
+    fun getStore(accountId: String): StoreInformation {
+        val store = storeRepository.findByAccountId(accountId)
+            ?: throw StoreNotFoundException("Store with account id $accountId not found")
+        val fiscalInformation = fiscalInformationRepository.findByAccountId(accountId)
+            ?: throw StoreNotFoundException("Fiscal information with account id $accountId not found")
+
+        return StoreInformation(store, fiscalInformation)
+    }
+
+    fun getStores(): List<Store> {
+        return storeRepository.findStores()
+    }
+
+    fun getStoreByName(storeName: String): Store? {
+        return storeRepository.findByStoreName(storeName)
+    }
+
+    fun getStoresByCategory(category: String): List<Store> {
+        return storeRepository.findStoresByCategory(category)
     }
 }

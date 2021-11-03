@@ -34,4 +34,32 @@ class StoreController(private val storeService: StoreService) {
                 }
             }
     }
+
+    fun getAllStores(ctx: Context) {
+        storeService.getStores().map { it.toResponse() }.apply {
+            ctx.json(this).status(HttpStatus.OK_200)
+        }
+    }
+
+    fun getStoreByName(ctx: Context) {
+        ctx.pathParam<String>("storeName").get().also {
+            storeService.getStoreByName(it)?.apply {
+                ctx.json(this.toResponse()).status(HttpStatus.OK_200)
+            }
+        }
+    }
+
+    fun getStoresByCategory(ctx: Context) {
+        ctx.pathParam<String>("category").get().also { param ->
+            storeService.getStoresByCategory(param).map { it.toResponse() }.apply {
+                ctx.json(this).status(HttpStatus.OK_200)
+            }
+        }
+    }
+
+    fun getStore(ctx: Context) {
+        storeService.getStore(ctx.getAccountIdByToken()).apply {
+            ctx.json(this.toResponse()).status(HttpStatus.OK_200)
+        }
+    }
 }

@@ -4,6 +4,7 @@ import io.javalin.Javalin
 import me.kaique.application.configs.AuthConfig
 import me.kaique.application.configs.modules.dependenciesModule
 import me.kaique.application.configs.modules.fiscalInformationModules
+import me.kaique.application.configs.modules.productModules
 import me.kaique.application.configs.modules.storeModules
 import me.kaique.application.web.handler.ErrorHandler
 import me.kaique.application.web.routes.RouterManager
@@ -25,7 +26,8 @@ object MallEntryPoint : KoinComponent {
             listOf(
                 dependenciesModule,
                 storeModules,
-                fiscalInformationModules
+                fiscalInformationModules,
+                productModules
             ),
             useEnvironmentProperties = true,
             extraProperties = extraProperties,

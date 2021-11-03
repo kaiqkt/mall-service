@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
 import io.azam.ulidj.ULID
-import me.kaique.domain.entities.FiscalInformation
-import me.kaique.domain.entities.FiscalType
-import me.kaique.domain.entities.Store
-import me.kaique.domain.entities.StoreInformation
+import me.kaique.domain.entities.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 

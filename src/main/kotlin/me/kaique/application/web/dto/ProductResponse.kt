@@ -8,7 +8,8 @@ data class ProductResponse(
     val productName: String,
     val description: String,
     val price: BigDecimal,
-    val options: List<String>? = null
+    val options: List<String>? = null,
+    val productCategory: String
 )
 
 fun Product.toResponse() = ProductResponse(
@@ -17,4 +18,5 @@ fun Product.toResponse() = ProductResponse(
     description = this.description,
     price = this.price,
     options = this.options,
+    productCategory = this.productCategory
 )

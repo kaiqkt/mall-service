@@ -12,8 +12,23 @@ class ProductRoutes(private val productController: ProductController) {
         path("/product") {
             post({ ctx ->
                 when {
-                    ctx.getContentTypeWithoutCharset() == Constants.REGISTER_LEGAL -> {
+                    ctx.getContentTypeWithoutCharset() == Constants.REGISTER_PRODUCT -> {
                         productController.registerProduct(ctx)
+                    }
+                    else -> ctx.notAcceptable()
+                }
+            }, setOf(Roles.CUSTOMER))
+
+            get("/:storeId/:productId", { ctx -> productController.getProduct(ctx) }, setOf(Roles.ANYONE))
+
+            get("/category/:storeId/:categoryName", { ctx -> productController.getProductsByCategory(ctx) }, setOf(Roles.ANYONE))
+
+            get("/:storeId", { ctx -> productController.getProducts(ctx) }, setOf(Roles.ANYONE))
+
+            post("/category/:categoryName", { ctx ->
+                when {
+                    ctx.getContentTypeWithoutCharset() == Constants.REGISTER_PRODUCT_CATEGORY -> {
+                        productController.registerProductCategory(ctx)
                     }
                     else -> ctx.notAcceptable()
                 }

@@ -3,10 +3,7 @@ package me.kaique.application.web.handler
 import io.javalin.Javalin
 import io.javalin.http.Context
 import me.kaique.application.web.dto.ErrorResponse
-import me.kaique.domain.exceptions.AccountNotFoundException
-import me.kaique.domain.exceptions.AlreadyExistsException
-import me.kaique.domain.exceptions.CommunicationException
-import me.kaique.domain.exceptions.InvalidStoreCategoryException
+import me.kaique.domain.exceptions.*
 import me.kaique.resources.repositories.exceptions.UnexpectedPersistenceException
 import org.eclipse.jetty.http.HttpStatus
 import org.slf4j.Logger
@@ -35,6 +32,24 @@ class ErrorHandler {
         app.exception(InvalidStoreCategoryException::class.java) { e, ctx ->
             handleException(e, ctx)
         }
+        app.exception(InvalidProductCategoryException::class.java) { e, ctx ->
+            handleException(e, ctx)
+        }
+    }
+
+    private fun handleException(
+        e: InvalidProductCategoryException,
+        ctx: Context
+    ) {
+        log.error("Communication error: ${ctx.method()} ${ctx.url()}")
+        ctx.status(HttpStatus.BAD_REQUEST_400)
+        ctx.json(
+            ErrorResponse(
+                type = ErrorType.COMMUNICATION_CLIENT_ERROR,
+                message = ErrorType.COMMUNICATION_CLIENT_ERROR.message,
+                cause = e.message
+            )
+        )
     }
 
     private fun handleException(
@@ -42,11 +57,11 @@ class ErrorHandler {
         ctx: Context
     ) {
         log.error("Communication error: ${ctx.method()} ${ctx.url()}")
-        ctx.status(HttpStatus.INTERNAL_SERVER_ERROR_500)
+        ctx.status(HttpStatus.BAD_REQUEST_400)
         ctx.json(
             ErrorResponse(
-                type = ErrorType.COMMUNICATION_CLIENT_ERROR,
-                message = ErrorType.COMMUNICATION_CLIENT_ERROR.message,
+                type = ErrorType.PRODUCT_CATEGORY_ERROR,
+                message = ErrorType.PRODUCT_CATEGORY_ERROR.message,
                 cause = e.message
             )
         )

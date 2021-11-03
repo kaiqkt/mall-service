@@ -7,4 +7,5 @@ enum class ErrorType(val message: String) {
    ALREADY_EXIST_ERROR("Already exist error"),
    COMMUNICATION_CLIENT_ERROR("Communication client error"),
    STORE_CATEGORY_ERROR("Store category not exist error"),
+   PRODUCT_CATEGORY_ERROR("Product category not exist error"),
 }
