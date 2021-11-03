@@ -1,12 +1,10 @@
 package me.kaique.application.web.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
 import me.kaique.domain.entities.Address
+import me.kaique.domain.entities.Product
 import me.kaique.domain.entities.Store
 import me.kaique.domain.entities.StoreCategory
 import java.time.LocalDateTime
@@ -18,10 +16,11 @@ data class StoreResponse(
     val storeBio: String,
     val address: Address,
     val storeCategory: StoreCategory,
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    val products: List<ProductResponse>,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     @JsonSerialize(using = LocalDateTimeSerializer::class)
     val createdAt: LocalDateTime,
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     @JsonSerialize(using = LocalDateTimeSerializer::class)
     val updateAt: LocalDateTime? = null,
 )
@@ -33,6 +32,7 @@ fun Store.toResponse() = StoreResponse(
     storeBio = this.storeBio,
     address = this.address,
     storeCategory = this.storeCategory,
+    products = this.products.map { it.toResponse() },
     createdAt = LocalDateTime.now(),
     updateAt = this.updateAt
 )

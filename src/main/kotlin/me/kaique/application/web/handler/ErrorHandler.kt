@@ -3,9 +3,7 @@ package me.kaique.application.web.handler
 import io.javalin.Javalin
 import io.javalin.http.Context
 import me.kaique.application.web.dto.ErrorResponse
-import me.kaique.domain.exceptions.AccountNotFoundException
-import me.kaique.domain.exceptions.AlreadyExistsException
-import me.kaique.domain.exceptions.CommunicationException
+import me.kaique.domain.exceptions.*
 import me.kaique.resources.repositories.exceptions.UnexpectedPersistenceException
 import org.eclipse.jetty.http.HttpStatus
 import org.slf4j.Logger
@@ -31,6 +29,27 @@ class ErrorHandler {
         app.exception(CommunicationException::class.java) { e, ctx ->
             handleException(e, ctx)
         }
+        app.exception(InvalidStoreCategoryException::class.java) { e, ctx ->
+            handleException(e, ctx)
+        }
+        app.exception(InvalidProductCategoryException::class.java) { e, ctx ->
+            handleException(e, ctx)
+        }
+    }
+
+    private fun handleException(
+        e: InvalidProductCategoryException,
+        ctx: Context
+    ) {
+        log.error("Communication error: ${ctx.method()} ${ctx.url()}")
+        ctx.status(HttpStatus.BAD_REQUEST_400)
+        ctx.json(
+            ErrorResponse(
+                type = ErrorType.COMMUNICATION_CLIENT_ERROR,
+                message = ErrorType.COMMUNICATION_CLIENT_ERROR.message,
+                cause = e.message
+            )
+        )
     }
 
     private fun handleException(
@@ -38,11 +57,27 @@ class ErrorHandler {
         ctx: Context
     ) {
         log.error("Communication error: ${ctx.method()} ${ctx.url()}")
-        ctx.status(HttpStatus.INTERNAL_SERVER_ERROR_500)
+        ctx.status(HttpStatus.BAD_REQUEST_400)
         ctx.json(
             ErrorResponse(
-                type = ErrorType.COMMUNICATION_CLIENT_ERROR,
-                message = ErrorType.COMMUNICATION_CLIENT_ERROR.message
+                type = ErrorType.PRODUCT_CATEGORY_ERROR,
+                message = ErrorType.PRODUCT_CATEGORY_ERROR.message,
+                cause = e.message
+            )
+        )
+    }
+
+    private fun handleException(
+        e: InvalidStoreCategoryException,
+        ctx: Context
+    ) {
+        log.error("Invalid category store: ${ctx.method()} ${ctx.url()}")
+        ctx.status(HttpStatus.BAD_REQUEST_400)
+        ctx.json(
+            ErrorResponse(
+                type = ErrorType.STORE_CATEGORY_ERROR,
+                message = ErrorType.STORE_CATEGORY_ERROR.message,
+                cause = e.message
             )
         )
     }
@@ -56,7 +91,8 @@ class ErrorHandler {
         ctx.json(
             ErrorResponse(
                 type = ErrorType.ACCOUNT_NOT_FOUND,
-                message = ErrorType.ACCOUNT_NOT_FOUND.message
+                message = ErrorType.ACCOUNT_NOT_FOUND.message,
+                cause = e.message
             )
         )
     }
@@ -70,7 +106,8 @@ class ErrorHandler {
         ctx.json(
             ErrorResponse(
                 type = ErrorType.ALREADY_EXIST_ERROR,
-                message = ErrorType.ALREADY_EXIST_ERROR.message
+                message = ErrorType.ALREADY_EXIST_ERROR.message,
+                cause = e.message
             )
         )
     }
@@ -84,7 +121,8 @@ class ErrorHandler {
         ctx.json(
             ErrorResponse(
                 type = ErrorType.UNEXPECTED_PERSISTENCE_ERROR,
-                message = ErrorType.UNEXPECTED_PERSISTENCE_ERROR.message
+                message = ErrorType.UNEXPECTED_PERSISTENCE_ERROR.message,
+                cause = e.message
             )
         )
     }
@@ -98,7 +136,8 @@ class ErrorHandler {
         ctx.json(
             ErrorResponse(
                 type = ErrorType.INTERNAL_SERVER_ERROR,
-                message = ErrorType.INTERNAL_SERVER_ERROR.message
+                message = ErrorType.INTERNAL_SERVER_ERROR.message,
+                cause = e.message
             )
         )
     }

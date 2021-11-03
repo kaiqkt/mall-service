@@ -8,6 +8,8 @@ data class Store(
     val storeName: String,
     val storeBio: String,
     val address: Address,
+    val products: List<Product> = listOf(),
+    val productsCategory: List<String> = listOf(),
     val storeCategory: StoreCategory,
     val createdAt: LocalDateTime,
     val updateAt: LocalDateTime? = null,

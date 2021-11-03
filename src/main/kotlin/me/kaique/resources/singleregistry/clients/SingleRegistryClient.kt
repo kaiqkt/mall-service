@@ -1,6 +1,5 @@
 package me.kaique.resources.singleregistry.clients
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.kittinunf.fuel.Fuel
@@ -16,8 +15,7 @@ import org.slf4j.LoggerFactory
 
 class SingleRegistryClient(
     private val serviceUrl: String,
-    private val serviceSecret: String,
-    private val mapper: ObjectMapper
+    private val serviceSecret: String
 ) {
 
     private val log: Logger = LoggerFactory.getLogger(javaClass)
@@ -39,10 +37,6 @@ class SingleRegistryClient(
                             log.info("Account $accountId found")
                             Account(email = it.email, phone = it.phone)
                         }
-//                            mapper.readValue<AccountResponse>(result.get()).let {
-//                                log.info("Account $accountId found")
-//                                Account(email = it.email, phone = it.phone)
-//                            }
                     }
                     response.statusCode == HttpStatus.NOT_FOUND_404 -> {
                         log.info("Account $accountId not found")

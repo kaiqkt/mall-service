@@ -20,7 +20,7 @@ data class FiscalInformationResponse(
     val birthDay: LocalDate? = null,
     val address: Address,
     val fiscalType: FiscalType,
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     @JsonSerialize(using = LocalDateTimeSerializer::class)
     val createdAt: LocalDateTime
 )
